@@ -4,20 +4,19 @@
 ### File structure
 ├── README.md
 ├── images
-    └── images
-        ├── Team_Rocket.png
-        ├── beauty.png
-        ├── biker.png
-        ├── bird_keeper.png
-        ├── blackbelt.png
-        ├── bug_catcher.png
-        ├── burglar.png
-        ├── fisherman.png
-        ├── hiker.png
-        ├── lass.png
-        ├── psychic.png
-        ├── super_nerd.png
-        └── youngster.png
+    ├── Team_Rocket.png
+    ├── beauty.png
+    ├── biker.png
+    ├── bird_keeper.png
+    ├── blackbelt.png
+    ├── bug_catcher.png
+    ├── burglar.png
+    ├── fisherman.png
+    ├── hiker.png
+    ├── lass.png
+    ├── psychic.png
+    ├── super_nerd.png
+    └── youngster.png
 ├── index.html
 ├── loading-bar.css
 ├── loading-bar.js
@@ -25,6 +24,7 @@
 ├── pokemon.js
 ├── prompt.txt
 └── prompt_parsed.md
+
 
 ### Files to focus on
 - index.html
