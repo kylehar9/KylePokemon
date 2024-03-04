@@ -4,19 +4,19 @@
 ### File structure
 ├── README.md
 ├── images
-    ├── Team_Rocket.png
-    ├── beauty.png
-    ├── biker.png
-    ├── bird_keeper.png
-    ├── blackbelt.png
-    ├── bug_catcher.png
-    ├── burglar.png
-    ├── fisherman.png
-    ├── hiker.png
-    ├── lass.png
-    ├── psychic.png
-    ├── super_nerd.png
-    └── youngster.png
+├── Team_Rocket.png
+├── beauty.png
+├── biker.png
+├── bird_keeper.png
+├── blackbelt.png
+├── bug_catcher.png
+├── burglar.png
+├── fisherman.png
+├── hiker.png
+├── lass.png
+├── psychic.png
+├── super_nerd.png
+└── youngster.png
 ├── index.html
 ├── loading-bar.css
 ├── loading-bar.js
@@ -27,14 +27,155 @@
 
 
 ### Files to focus on
-- index.html
+- index.html - add JS to the script tags
 
 ### Files not to modify
 - poke.css
-- pokemon.js 
-- images.zip 
-- loading-bar.css 
+- pokemon.js
+- images.zip
+- loading-bar.css
 - loading-bar.js
+
+## TODO
+- [ ] loading-bar subdir
+  - copy loading-bar js & css into it
+- [ ] 2 global vars for trainers
+- [ ] Person class(params)
+  - constructor()
+  - firstName
+  - lastName
+- [ ] Pokemon class
+  - constructor(name, type, image)
+  - name
+  - type
+  - image
+  - healthPower (100)
+  - updateHP(this.healthPower)
+  - [ ] Also call load bar to update with the HP value.
+    - `bar1.set(this.healthPower);`
+- [ ] Trainer class
+  - Inherits from Person
+    - constructor(firstName, lastName, type)
+  - type
+    - Bug Cather, Hiker, etc.
+    - from trainer select box.
+  - party
+    - the team of Pokemon objects
+  - currPokemon
+  - currPokemonIndex
+    - Pokemon 1, 2, or 3
+  - wins
+  - losses
+    - updated at the end of completed game.
+  - nextPokemon()
+    - update this.currPokemonIndex
+    - try to exceed?
+      - assign value `null` to currPokemon.
+  - clearParty()
+    - reset party array.
+  - addPokemonToParty(Pokemon)
+    - this.party.push(Pokemon)
+- [ ] Battle()
+  - On start
+    - Restart button hidden
+  - On end
+    - Attack button is hidden
+    - Restart button displayed
+
+### Flow
+1. I enter team info
+2. I pick my team
+3. I click BATTLE
+4. I click ATTACK
+   - Does attack for both sides
+   - User keeps clicking it
+5. Victory
+   - One side has all pokemon at 0
+     - (Current pokemon is null)
+   - Winner determined.
+
+### My team
+- [ ] firstname & lastname required fields
+- if not added
+    - give error
+    - set focus to empty one
+- if added
+    - don't set focus to input.
+- [ ] Read 1st, 2nd, & 3rd input boxes and trainer box for my team.
+- 
+### Opponent team
+
+- Has copy of his own tags
+  - Update as it goes
+- [ ] Attributes
+  - [ ] Pokemons: random numbers 
+  - [ ] Img: Will always be Team Rocket
+  - [ ] First name: always be "Team"
+  - [ ] Last name: always be "Rocket"
+  - [ ] Type is always "Team Rocket"
+
+### On start
+- When have Pokemon party
+    - for each Pokemon display image + name
+    - For trainer display
+        - image
+        - name
+        - wins
+        - losses
+### Restart
+- reset HP in each Party to 100
+- reset each Trainer's pokemon index to 0
+- clear displays & hide Restart button.
+
+### Attack
+- My first pokemon attacks his first pokemon
+- If health goes to 0, either side, it goes to next index
+- My pokemon attacks
+  - Display active pokemon's name & "attacks!" in move box
+
+### Faint
+- Health hits 0
+- Display active pokemon's name & "fainted!" in move box
+
+### Endgame
+- [ ] Results box with p tag
+  - "Team Rocket wins!"
+- [ ] Update wins & losses for each trainer object
+
+
+### HP modification
+- let damage = 10
+- let effectiveness
+  - calculateEffectiveness(myType, oppType)
+  - switch
+    - case()
+      Type == Type then return .5
+      Fire vs Water then return .5
+      Fire vs Grass then return 1.5
+      Water vs Fire then return 1.5
+      Water vs Grass then return .5
+      Grass vs Fire then return .5
+      Grass vs water then return 1.5
+      Otherwise return 1
+  - 1.5 = "It was super effective!"
+  - .5 = "It was not very effective..."
+    - goes to `myEffectiveness` html in DOM
+  - [ ] Critical hits
+    - random weight 0 =< x < 1
+      - x>= .9 
+        - "Critical Hit" in `myExtra` html DOM
+      - x <= .1
+        - "But it missed..."
+        - write "" to `myEffectiveness` html in DOM
+  - [ ] damage power = damage * effectiveness * multiplier
+    - modifies HP
+    - passed to class method
+      - I attack? update opp HP
+      - He attack? update my HP
+  - 
+
+
+
 
 ---
 Use the following provided files for creating your Pokemon Battle website. Make sure you follow the directions for downloading the files and putting them in the correct folder.
