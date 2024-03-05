@@ -186,18 +186,18 @@
         const MAX_POKEMON_INDEX = 2
 
         class Person {
-            constructor() {
+            constructor(firstName, lastName) {
+                this.firstName = firstName
+                this.lastName = lastName
             }
-            firstName = ""
-            lastName = ""
         }
 
         class Pokemon {
             constructor(name, type, image) {
+                this.name = name
+                this.type = type
+                this.image = image
             }
-            name = name
-            type = type
-            image = image
             healthPower = 100
             updateHP(healthPower) {
 
@@ -205,10 +205,12 @@
         }
 
         class Trainer extends Person {
-            constructor(type) {
+            constructor(firstName, lastName, type) {
                 super();
+                this.firstName = firstName
+                this.lastName = lastName
+                this.type = type
             }
-            type = type
             party = []
             currPokemon = {}
             currPokemonIndex = 0
@@ -236,18 +238,34 @@
             document.getElementsByClassName('restart')[0].className = 'restart' // need both of these to hide/show it
             document.getElementById('btnRestart').style = 'visibility: block'
 
+            // read inputs
+            let firstName = document.getElementById('firstName').value
+            let lastName = document.getElementById('lastName').value
+            let trainerType = document.getElementById('trainerType').value
+            myTrainer = new Trainer(firstName, lastName, trainerType)
+
+            let party = []
+            let pokemon_inputs = document.querySelectorAll('[name*="party"]')
+            pokemon_inputs.forEach(thing => {
+                party.push(pokemonArray[thing.value])
+            })
+
+            myTrainer.party = party
+
+
+
             // on end
                 // Attack hidden
-            document.getElementById('btnAttack').style = 'visibility: hidden'
-                // Restart displayed
-            document.getElementsByClassName('restart')[0].className = 'restart hidden' // need both of these to hide/show it
-            document.getElementById('btnRestart').style = 'visibility: hidden'
+            // document.getElementById('btnAttack').style = 'visibility: hidden'
+            //     // Restart displayed
+            // document.getElementsByClassName('restart')[0].className = 'restart hidden' // need both of these to hide/show it
+            // document.getElementById('btnRestart').style = 'visibility: hidden'
 
 
         }
 
         function attack() {
-            alert('Hi mom:) lol')
+            alert(`Your info is: ${myTrainer.firstName} ${myTrainer.lastName} ${myTrainer.type}`)
         }
 
         function reset() {
