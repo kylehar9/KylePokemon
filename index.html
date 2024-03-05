@@ -240,8 +240,12 @@
                     return elem
                 }
             })
+            badInputs = badInputs.filter(elem => elem) // remove all undefined elems (the good ones)
 
             if (badInputs.length > 0) {
+                badInputs.forEach(badInput => {
+                    badInput.style = 'border: 2px solid red'
+                })
                 return 1
             }
 
