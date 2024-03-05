@@ -206,15 +206,13 @@
             }
             healthPower = 100
             updateHP(healthPower) {
-
+                // TODO: make this
             }
         }
 
         class Trainer extends Person {
             constructor(firstName, lastName, type) {
                 super();
-                // this.firstName = firstName
-                // this.lastName = lastName
                 this.type = type
             }
             party = []
@@ -274,7 +272,8 @@
             let party = []
             let pokemon_inputs = document.querySelectorAll('select[name*="party"]')
             pokemon_inputs.forEach(thing => {
-                party.push(pokemonArray[thing.value]) // load up Pokemon objects into party arr
+                let data = pokemonArray[thing.value]
+                party.push(new Pokemon(data[0], data[1], data[2])) // create & add new Pokemon objects into party arr
             })
 
             myTrainer.party = party
@@ -282,8 +281,9 @@
             document.querySelector('#myWins').innerHTML = myTrainer.wins
             document.querySelector('#myLosses').innerHTML = myTrainer.losses
             document.querySelector('#mySprite').setAttribute('src', `./images/${myTrainer.type}.png`)
-            for (let i = 0; i < document.querySelectorAll('[id^=myPokemon].pokemon').length; i++) {
-                document.querySelector(`[id^=myPokemonImg${i+1}]`).setAttribute('src', `${myTrainer.party[i][2]}`)
+            for (let i = 0; i < document.querySelectorAll('[id^=myPokemon].pokemon').length; i++) { // load images & health bars
+                document.querySelector(`[id^=myPokemonImg${i+1}]`).setAttribute('src', `${myTrainer.party[i].image}`)
+                ldBar(`#myPokemonHP${i+1}`).set(myTrainer.party[i].healthPower)
             }
 
 
@@ -291,7 +291,9 @@
             oppTrainer = new Trainer(TEAM_STR, ROCKET_STR, TEAM_ROCKET_STR)
             let rocket_pokemon = []
             for (let i = 0; i < TEAM_ROCKET_TEAM_SIZE; i++) {
-                rocket_pokemon.push(pokemonArray[Math.floor(Math.random() * pokemonArray.length)])
+                let data = pokemonArray[Math.floor(Math.random() * pokemonArray.length)]
+                rocket_pokemon.push(new Pokemon(data[0], data[1], data[2]))
+
             }
 
             oppTrainer.party = rocket_pokemon
@@ -300,7 +302,8 @@
             document.querySelector('#oppLosses').innerHTML = oppTrainer.losses
             document.querySelector('#oppSprite').setAttribute('src', TEAM_ROCKET_IMG_PATH)
             for (let i = 0; i < document.querySelectorAll('[id^=oppPokemon].pokemon').length; i++) {
-                document.querySelector(`[id^=oppPokemonImg${i+1}]`).setAttribute('src', `${oppTrainer.party[i][2]}`)
+                document.querySelector(`[id^=oppPokemonImg${i+1}]`).setAttribute('src', `${oppTrainer.party[i].image}`)
+                ldBar(`#oppPokemonHP${i+1}`).set(oppTrainer.party[i].healthPower)
             }
 
 
