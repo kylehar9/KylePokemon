@@ -184,6 +184,7 @@
         let myTrainer = {}
         let oppTrainer = {}
         const MAX_POKEMON_INDEX = 2
+        const NAME_INPUTS_SELECTOR = 'fieldset.trainer input[type="text"]'
 
         class Person {
             constructor(firstName, lastName) {
@@ -234,7 +235,7 @@
             // on start
 
             // read inputs
-            let inputs = document.querySelectorAll('fieldset.trainer input[type="text"]')
+            let inputs = document.querySelectorAll(NAME_INPUTS_SELECTOR)
             let badInputs = Object.values(inputs).map(elem => {
                 if (!elem.value) {
                     return elem
