@@ -232,6 +232,19 @@
 
         function Battle() {
             // on start
+
+            // read inputs
+            let inputs = document.querySelectorAll('fieldset.trainer input[type="text"]')
+            let badInputs = Object.values(inputs).map(elem => {
+                if (!elem.value) {
+                    return elem
+                }
+            })
+
+            if (badInputs.length > 0) {
+                return 1
+            }
+
                 // Attack displayed
             document.getElementById('btnAttack').style = 'visibility: block'
                 // Restart hidden
@@ -251,6 +264,14 @@
             })
 
             myTrainer.party = party
+
+            document.querySelector('#myWins').innerHTML = myTrainer.wins
+            document.querySelector('#myLosses').innerHTML = myTrainer.losses
+            document.querySelector('#mySprite').setAttribute('src', `./images/${myTrainer.type}.png`)
+            for (let i = 0; i < document.querySelectorAll('[id^=myPokemon]').length; i++) {
+                document.querySelector(`[id^=myPokemonImg${i+1}]`).setAttribute('src', `${myTrainer.party[i][2]}`)
+            }
+
 
 
 
