@@ -203,8 +203,8 @@
                 this.image = image
             }
             healthPower = 100
-            updateHP(healthPower) {
-                // ldBar(`#${prefix}PokemonHP${i+1}`).set(trainer.party[i].healthPower)
+            updateHP(update_amount) {
+                this.healthPower += update_amount
             }
         }
 
@@ -229,6 +229,12 @@
             }
             addPokemonToParty(pokemon) {
                 this.party.push(pokemon)
+            }
+            win() {
+                this.wins += 1
+            }
+            lose() {
+                this.losses += 1
             }
         }
 
@@ -260,6 +266,8 @@
                 return 1
             }
 
+                // Go Battle hidden
+            document.getElementById('goBattle').className = 'hidden'
                 // Attack displayed
             document.getElementById('btnAttack').style = 'visibility: block'
                 // Restart hidden
@@ -281,6 +289,7 @@
             })
 
             myTrainer.party = party
+            myTrainer.currPokemon = myTrainer.party[myTrainer.currPokemonIndex]
 
 
             // load team rocket's pokemon
@@ -292,6 +301,7 @@
             }
 
             oppTrainer.party = party
+            oppTrainer.currPokemon = oppTrainer.party[oppTrainer.currPokemonIndex]
 
             myTrainer.firstName = firstName
             myTrainer.lastName = lastName
@@ -299,6 +309,7 @@
 
             loadTrainer(myTrainer, false)
             loadTrainer(oppTrainer, true)
+
 
 
 
@@ -313,8 +324,42 @@
 
         }
 
+        function checkWinner() {
+            if (myTrainer.currPokemonIndex == null || oppTrainer.currPokemonIndex == null) {
+                if (myTrainer.currPokemonIndex != null) {
+                    alert(`${myTrainer.firstName} ${myTrainer.lastName} wins!`)
+                    myTrainer.win()
+                    oppTrainer.lose()
+                }
+                else {
+                    alert(`${oppTrainer.firstName} ${oppTrainer.lastName} wins!`)
+                    myTrainer.lose()
+                    oppTrainer.win()
+                }
+                document.getElementById('goBattle').className = ''
+                document.getElementById('btnAttack').className = 'hidden'
+            }
+        }
+
+        function updateHealth(update_amount, pokemon_index, isCPU) {
+            oppTrainer.currPokemon.updateHP(update_amount)
+            const MY_PREFIX = 'my'
+            const OPP_PREFIX = 'opp'
+            let prefix = isCPU ? OPP_PREFIX : MY_PREFIX
+            ldBar(`#${prefix}PokemonHP${pokemon_index + 1}`).set(oppTrainer.currPokemon.healthPower)
+        }
+
         function attack() {
-            alert(`Your info is: ${myTrainer.firstName} ${myTrainer.lastName} ${myTrainer.type}`)
+            updateHealth(-50, oppTrainer.currPokemonIndex, true)
+
+            if (myTrainer.currPokemon.healthPower <= 0) {
+                myTrainer.nextPokemon()
+            }
+
+            if (oppTrainer.currPokemon.healthPower <= 0) {
+                oppTrainer.nextPokemon()
+            }
+            checkWinner();
         }
 
         function restart() {
@@ -322,13 +367,13 @@
             myTrainer.losses = 0
             oppTrainer.wins = 0
             oppTrainer.losses = 0
+            myTrainer.clearParty()
+            oppTrainer.clearParty()
         }
 
         function loadTrainer(trainer, isCPU = false) {
             const MY_PREFIX = 'my'
             const OPP_PREFIX = 'opp'
-            // let party = []
-            // let pokemon_inputs = []
             let prefix = isCPU ? OPP_PREFIX : MY_PREFIX
 
             document.querySelector(`#${prefix}Wins`).innerHTML = trainer.wins
