@@ -204,7 +204,7 @@
             }
             healthPower = 100
             updateHP(healthPower) {
-                // TODO: make this
+                // ldBar(`#${prefix}PokemonHP${i+1}`).set(trainer.party[i].healthPower)
             }
         }
 
@@ -317,8 +317,11 @@
             alert(`Your info is: ${myTrainer.firstName} ${myTrainer.lastName} ${myTrainer.type}`)
         }
 
-        function reset() {
-
+        function restart() {
+            myTrainer.wins = 0
+            myTrainer.losses = 0
+            oppTrainer.wins = 0
+            oppTrainer.losses = 0
         }
 
         function loadTrainer(trainer, isCPU = false) {
