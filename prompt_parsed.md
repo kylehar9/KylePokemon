@@ -94,27 +94,27 @@
      - (Current pokemon is null)
    - Winner determined.
 
-### My team
-- [ ] firstname & lastname required fields
+### ~~My team~~
+- [x] firstname & lastname required fields
 - if not added
     - give error
     - set focus to empty one
 - if added
     - don't set focus to input.
-- [ ] Read 1st, 2nd, & 3rd input boxes and trainer box for my team.
+- [x] Read 1st, 2nd, & 3rd input boxes and trainer box for my team.
 - 
-### Opponent team
+### ~~Opponent team~~
 
 - Has copy of his own tags
   - Update as it goes
-- [ ] Attributes
-  - [ ] Pokemons: random numbers 
-  - [ ] Img: Will always be Team Rocket
-  - [ ] First name: always be "Team"
-  - [ ] Last name: always be "Rocket"
-  - [ ] Type is always "Team Rocket"
+- [x] Attributes
+  - [x] Pokemons: random numbers 
+  - [x] Img: Will always be Team Rocket
+  - [x] First name: always be "Team"
+  - [x] Last name: always be "Rocket"
+  - [x] Type is always "Team Rocket"
 
-### On start
+### ~~On start~~
 - When have Pokemon party
     - for each Pokemon display image + name
     - For trainer display

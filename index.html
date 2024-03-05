@@ -185,6 +185,11 @@
         let oppTrainer = {}
         const MAX_POKEMON_INDEX = 2
         const NAME_INPUTS_SELECTOR = 'fieldset.trainer input[type="text"]'
+        const TEAM_ROCKET_IMG_PATH = './images/Team_Rocket.png'
+        const TEAM_ROCKET_STR = 'Team Rocket'
+        const TEAM_ROCKET_TEAM_SIZE = 3
+        const TEAM_STR = 'Team'
+        const ROCKET_STR = 'Rocket'
 
         class Person {
             constructor(firstName, lastName) {
@@ -208,8 +213,8 @@
         class Trainer extends Person {
             constructor(firstName, lastName, type) {
                 super();
-                this.firstName = firstName
-                this.lastName = lastName
+                // this.firstName = firstName
+                // this.lastName = lastName
                 this.type = type
             }
             party = []
@@ -247,6 +252,7 @@
                 badInputs.forEach(badInput => {
                     badInput.style = 'border: 2px solid red'
                 })
+                badInputs[0].focus()
                 return 1
             }
 
@@ -258,14 +264,17 @@
 
             // read inputs
             let firstName = document.getElementById('firstName').value
+            document.getElementById('firstName').removeAttribute('style') // reset the error border style edits, if any
             let lastName = document.getElementById('lastName').value
+            document.getElementById('lastName').removeAttribute('style')
             let trainerType = document.getElementById('trainerType').value
-            myTrainer = new Trainer(firstName, lastName, trainerType)
 
+            // load player
+            myTrainer = new Trainer(firstName, lastName, trainerType)
             let party = []
-            let pokemon_inputs = document.querySelectorAll('[name*="party"]')
+            let pokemon_inputs = document.querySelectorAll('select[name*="party"]')
             pokemon_inputs.forEach(thing => {
-                party.push(pokemonArray[thing.value])
+                party.push(pokemonArray[thing.value]) // load up Pokemon objects into party arr
             })
 
             myTrainer.party = party
@@ -273,8 +282,25 @@
             document.querySelector('#myWins').innerHTML = myTrainer.wins
             document.querySelector('#myLosses').innerHTML = myTrainer.losses
             document.querySelector('#mySprite').setAttribute('src', `./images/${myTrainer.type}.png`)
-            for (let i = 0; i < document.querySelectorAll('[id^=myPokemon]').length; i++) {
+            for (let i = 0; i < document.querySelectorAll('[id^=myPokemon].pokemon').length; i++) {
                 document.querySelector(`[id^=myPokemonImg${i+1}]`).setAttribute('src', `${myTrainer.party[i][2]}`)
+            }
+
+
+            // load Team Rocket
+            oppTrainer = new Trainer(TEAM_STR, ROCKET_STR, TEAM_ROCKET_STR)
+            let rocket_pokemon = []
+            for (let i = 0; i < TEAM_ROCKET_TEAM_SIZE; i++) {
+                rocket_pokemon.push(pokemonArray[Math.floor(Math.random() * pokemonArray.length)])
+            }
+
+            oppTrainer.party = rocket_pokemon
+
+            document.querySelector('#oppWins').innerHTML = oppTrainer.wins
+            document.querySelector('#oppLosses').innerHTML = oppTrainer.losses
+            document.querySelector('#oppSprite').setAttribute('src', TEAM_ROCKET_IMG_PATH)
+            for (let i = 0; i < document.querySelectorAll('[id^=oppPokemon].pokemon').length; i++) {
+                document.querySelector(`[id^=oppPokemonImg${i+1}]`).setAttribute('src', `${oppTrainer.party[i][2]}`)
             }
 
 
