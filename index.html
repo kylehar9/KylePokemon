@@ -83,7 +83,7 @@
                 </select>
             </fieldset>
             <br>
-            <button id='goBattle' type='button' onclick='battle()'>Go Battle!</button>
+            <button id='goBattle' type='button' onclick='Battle()'>Go Battle!</button>
         </form>
         <br><br>
 
@@ -172,7 +172,7 @@
             </div>
 
             <div class='moves'>
-                <button onclick='attack()' name='btnAttack' id='btnAttack' style="visibility: hidden;">Attack!</i>
+                <button onclick='attack()' name='btnAttack' id='btnAttack' style="visibility: hidden;">Attack!</button>
             </div>
 
             <div class='restart hidden'>
@@ -181,6 +181,79 @@
         </div>
     </div>
     <script>
+        let myTrainer = {}
+        let oppTrainer = {}
+        const MAX_POKEMON_INDEX = 2
+
+        class Person {
+            constructor() {
+            }
+            firstName = ""
+            lastName = ""
+        }
+
+        class Pokemon {
+            constructor(name, type, image) {
+            }
+            name = name
+            type = type
+            image = image
+            healthPower = 100
+            updateHP(healthPower) {
+
+            }
+        }
+
+        class Trainer extends Person {
+            constructor(type) {
+                super();
+            }
+            type = type
+            party = []
+            currPokemon = {}
+            currPokemonIndex = 0
+            wins = 0
+            losses = 0
+            nextPokemon() {
+                this.currPokemonIndex += 1
+                if (this.currPokemonIndex > MAX_POKEMON_INDEX) {
+                    this.currPokemonIndex = null
+                }
+            }
+            clearParty() {
+                this.party = [] // reset the party
+            }
+            addPokemonToParty(pokemon) {
+                this.party.push(pokemon)
+            }
+        }
+
+        function Battle() {
+            // on start
+                // Attack displayed
+            document.getElementById('btnAttack').style = 'visibility: block'
+                // Restart hidden
+            document.getElementsByClassName('restart')[0].className = 'restart' // need both of these to hide/show it
+            document.getElementById('btnRestart').style = 'visibility: block'
+
+            // on end
+                // Attack hidden
+            document.getElementById('btnAttack').style = 'visibility: hidden'
+                // Restart displayed
+            document.getElementsByClassName('restart')[0].className = 'restart hidden' // need both of these to hide/show it
+            document.getElementById('btnRestart').style = 'visibility: hidden'
+
+
+        }
+
+        function attack() {
+            alert('Hi mom:) lol')
+        }
+
+        function reset() {
+
+        }
+
     </script>
 </body>
 </html>

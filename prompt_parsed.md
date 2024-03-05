@@ -29,7 +29,7 @@
 ### Files to focus on
 - index.html - add JS to the script tags
 
-### Files not to modify
+### Files NOT to modify
 - poke.css
 - pokemon.js
 - images.zip
@@ -37,14 +37,14 @@
 - loading-bar.js
 
 ## TODO
-- [ ] loading-bar subdir
+- [x] loading-bar subdir
   - copy loading-bar js & css into it
-- [ ] 2 global vars for trainers
-- [ ] Person class(params)
+- [x] 2 global vars for trainers
+- [x] Person class(params)
   - constructor()
   - firstName
   - lastName
-- [ ] Pokemon class
+- [x] Pokemon class
   - constructor(name, type, image)
   - name
   - type
@@ -53,7 +53,7 @@
   - updateHP(this.healthPower)
   - [ ] Also call load bar to update with the HP value.
     - `bar1.set(this.healthPower);`
-- [ ] Trainer class
+- [x] Trainer class
   - Inherits from Person
     - constructor(firstName, lastName, type)
   - type
