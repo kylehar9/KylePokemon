@@ -188,6 +188,8 @@
         const TEAM_ROCKET_TEAM_SIZE = 3
         const TEAM_STR = 'Team'
         const ROCKET_STR = 'Rocket'
+        const MY_HEALTH_BARS = []
+        const OPP_HEALTH_BARS = []
 
         class Person {
             constructor(firstName, lastName) {
@@ -206,6 +208,9 @@
             updateHP(update_amount) {
                 this.healthPower += update_amount
             }
+            resetHP() {
+                this.healthPower = 100
+            }
         }
 
         class Trainer extends Person {
@@ -223,9 +228,12 @@
                 if (this.currPokemonIndex > MAX_POKEMON_INDEX) {
                     this.currPokemonIndex = null
                 }
+                if (this.currPokemonIndex != null) {
+                    this.currPokemon = this.party[this.currPokemonIndex]
+                }
             }
             clearParty() {
-                this.party = [] // reset the party
+                this.party = []
             }
             addPokemonToParty(pokemon) {
                 this.party.push(pokemon)
@@ -245,9 +253,11 @@
         // ***********************************************************
         const myTrainer = new Trainer()
         const oppTrainer = new Trainer(TEAM_STR, ROCKET_STR, TEAM_ROCKET_STR)
+        let isCurrentBattle = false
 
         function Battle() {
             // on start
+            isCurrentBattle = true // track if the battle has ended or not
 
             // read inputs
             let inputs = document.querySelectorAll(NAME_INPUTS_SELECTOR)
@@ -289,7 +299,7 @@
             })
 
             myTrainer.party = party
-            myTrainer.currPokemon = myTrainer.party[myTrainer.currPokemonIndex]
+            myTrainer.currPokemon = myTrainer.party[0]
 
 
             // load team rocket's pokemon
@@ -301,7 +311,7 @@
             }
 
             oppTrainer.party = party
-            oppTrainer.currPokemon = oppTrainer.party[oppTrainer.currPokemonIndex]
+            oppTrainer.currPokemon = oppTrainer.party[0]
 
             myTrainer.firstName = firstName
             myTrainer.lastName = lastName
@@ -309,18 +319,6 @@
 
             loadTrainer(myTrainer, false)
             loadTrainer(oppTrainer, true)
-
-
-
-
-
-            // on end
-                // Attack hidden
-            // document.getElementById('btnAttack').style = 'visibility: hidden'
-            //     // Restart displayed
-            // document.getElementsByClassName('restart')[0].className = 'restart hidden' // need both of these to hide/show it
-            // document.getElementById('btnRestart').style = 'visibility: hidden'
-
 
         }
 
@@ -336,17 +334,18 @@
                     myTrainer.lose()
                     oppTrainer.win()
                 }
-                document.getElementById('goBattle').className = ''
-                document.getElementById('btnAttack').className = 'hidden'
+                isCurrentBattle = false
             }
         }
 
         function updateHealth(update_amount, pokemon_index, isCPU) {
             oppTrainer.currPokemon.updateHP(update_amount)
-            const MY_PREFIX = 'my'
-            const OPP_PREFIX = 'opp'
-            let prefix = isCPU ? OPP_PREFIX : MY_PREFIX
-            ldBar(`#${prefix}PokemonHP${pokemon_index + 1}`).set(oppTrainer.currPokemon.healthPower)
+
+            if (isCPU) {
+                OPP_HEALTH_BARS[pokemon_index].set(oppTrainer.currPokemon.healthPower)
+            } else {
+                MY_HEALTH_BARS[pokemon_index].set(myTrainer.currPokemon.healthPower)
+            }
         }
 
         function attack() {
@@ -359,16 +358,30 @@
             if (oppTrainer.currPokemon.healthPower <= 0) {
                 oppTrainer.nextPokemon()
             }
-            checkWinner();
+            checkWinner()
+
+            if (!isCurrentBattle) {
+                // on end
+                    // Attack hidden
+                document.getElementById('btnAttack').style = 'visibility: hidden'
+                    // Go Battle displayed
+                document.getElementById('goBattle').className = ''
+                    // Restart displayed
+                document.getElementsByClassName('restart')[0].className = 'restart hidden' // need both of these to hide/show it
+                document.getElementById('btnRestart').style = 'visibility: hidden'
+            }
         }
 
         function restart() {
-            myTrainer.wins = 0
-            myTrainer.losses = 0
-            oppTrainer.wins = 0
-            oppTrainer.losses = 0
-            myTrainer.clearParty()
-            oppTrainer.clearParty()
+            myTrainer.currPokemonIndex = 0
+            oppTrainer.currPokemonIndex = 0
+            myTrainer.party.forEach(pokemon => {
+                pokemon.resetHP()
+            })
+            oppTrainer.party.forEach(pokemon => {
+                pokemon.resetHP()
+            })
+            document.getElementById('btnRestart').style = 'visibility: hidden'
         }
 
         function loadTrainer(trainer, isCPU = false) {
@@ -381,7 +394,13 @@
             document.querySelector(`#${prefix}Sprite`).setAttribute('src', isCPU ? TEAM_ROCKET_IMG_PATH : `./images/${trainer.type}.png`)
             for (let i = 0; i < document.querySelectorAll(`[id^=${prefix}Pokemon].pokemon`).length; i++) { // load images & health bars
                 document.querySelector(`[id^=${prefix}PokemonImg${i+1}]`).setAttribute('src', `${trainer.party[i].image}`)
-                ldBar(`#${prefix}PokemonHP${i+1}`).set(trainer.party[i].healthPower)
+                if (isCPU) {
+                    OPP_HEALTH_BARS.push(ldBar(`#${prefix}PokemonHP${i+1}`))
+                    OPP_HEALTH_BARS[i].set(trainer.party[i].healthPower)
+                } else {
+                    MY_HEALTH_BARS.push(ldBar(`#${prefix}PokemonHP${i+1}`))
+                    MY_HEALTH_BARS[i].set(trainer.party[i].healthPower)
+                }
             }
         }
 
