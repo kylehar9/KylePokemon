@@ -1,3 +1,3 @@
 # KylePokemon
 
-## Kevin is *one* of my best pals
+Challenging myself to finish the IS 303 final from 2018
